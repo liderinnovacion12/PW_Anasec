@@ -34,6 +34,16 @@ export function Hero() {
       {/* fondo */}
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_75%_30%,var(--bg-3),transparent_70%),linear-gradient(180deg,var(--bg),var(--bg-2))]" />
+        <video
+          className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+          src="/video/hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--bg)_0%,color-mix(in_srgb,var(--bg)_78%,transparent)_50%,color-mix(in_srgb,var(--bg)_55%,transparent)_100%)] motion-reduce:hidden" />
         <div className="animate-orb absolute -left-32 top-1/4 h-[420px] w-[420px] rounded-full bg-brand-blue/25 blur-[110px]" />
         <div
           className="animate-orb absolute right-[8%] top-[55%] h-[360px] w-[360px] rounded-full bg-brand-green/20 blur-[110px]"
