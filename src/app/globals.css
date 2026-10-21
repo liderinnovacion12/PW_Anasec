@@ -6,7 +6,7 @@
    Doble vista: claro (por defecto, como el brochure) y oscuro.
 ------------------------------------------------------------------- */
 
-@custom-variant dark (&:where([data-theme="dark"] *, .surface-dark, .surface-dark *));
+@custom-variant dark (&:where([data-theme="dark"] *, .surface-dark, .surface-dark *, .on-video, .on-video *));
 
 :root {
   --navy: #132a5a;
@@ -42,7 +42,8 @@
 }
 
 :root[data-theme="dark"],
-.surface-dark {
+.surface-dark,
+.on-video {
   --bg: #050d1e;
   --bg-2: #081430;
   --bg-3: #0c1c40;

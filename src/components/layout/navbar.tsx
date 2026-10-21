@@ -48,7 +48,7 @@ export function Navbar() {
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
           scrolled || open
             ? "border-b border-line bg-[var(--glass-strong)] shadow-[0_10px_40px_-20px_rgba(19,42,90,0.35)] backdrop-blur-xl backdrop-saturate-150"
-            : "border-b border-transparent bg-transparent"
+            : "on-video border-b border-transparent bg-transparent"
         }`}
       >
         <div className="container-x flex h-[72px] items-center justify-between gap-6">
