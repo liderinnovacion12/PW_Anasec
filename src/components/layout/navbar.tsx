@@ -53,7 +53,7 @@ export function Navbar() {
       >
         <div className="container-x flex h-[72px] items-center justify-between gap-6">
           <a href="#inicio" aria-label="ANASEC, ir al inicio" className="relative z-10 shrink-0">
-            <Logo className="h-7 w-auto sm:h-8" priority />
+            <Logo className="h-11 w-auto sm:h-12" priority />
           </a>
 
           <nav aria-label="Principal" className="hidden xl:block">

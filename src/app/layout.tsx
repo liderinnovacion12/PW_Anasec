@@ -87,7 +87,7 @@ const jsonLd = {
       alternateName: SITE.legalName,
       legalName: SITE.legalName,
       url: SITE.url,
-      logo: `${SITE.url}/logos/anasec-logo.png`,
+      logo: `${SITE.url}/logos/anasec-logo-full.png`,
       image: `${SITE.url}/og.png`,
       email: SITE.email,
       telephone: SITE.phone,

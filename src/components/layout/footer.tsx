@@ -22,7 +22,7 @@ export function Footer() {
       <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-[image:var(--grad-brand)] opacity-70" />
       <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <Logo className="h-9 w-auto" />
+          <Logo className="h-14 w-auto" />
           <p className="mt-5 text-sm font-semibold tracking-wide text-fg">{SITE.type}</p>
           <p className="mt-1 text-sm text-fg2">{SITE.legalName}</p>
           <p className="mt-4 font-mono text-xs tracking-wider text-fg3">NIT: {SITE.nit}</p>
