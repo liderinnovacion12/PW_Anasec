@@ -18,7 +18,7 @@ export function SmartCities() {
   const tipId = useId();
 
   return (
-    <section id="smart-cities" aria-labelledby="sc-title" className="section-pad relative overflow-hidden bg-bg2">
+    <section id="smart-cities" aria-labelledby="sc-title" className="section-pad relative overflow-hidden bg-bg2/55">
       <div className="container-x">
         <SectionHeading
           eyebrow="07 · Smart Cities e IoT"
@@ -30,33 +30,78 @@ export function SmartCities() {
           mapa para conocer las entidades y capacidades presentes en cada territorio.
         </SectionHeading>
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        <div className="mt-7 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
           {/* MAPA */}
           <Reveal delay={0.1} className="relative mx-auto w-full max-w-[420px] lg:max-w-none">
             <svg viewBox={`0 0 ${W} ${W}`} className="w-full" role="group" aria-label="Mapa de Colombia con territorios donde ANASEC tiene presencia">
               <defs>
                 <radialGradient id="sc-glow" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.28" />
+                  <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.32" />
                   <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
                 </radialGradient>
+                <linearGradient id="sc-fill" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#137ec6" stopOpacity="0.28" />
+                  <stop offset="1" stopColor="#66be56" stopOpacity="0.32" />
+                </linearGradient>
+                <linearGradient id="sc-sweep" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stopColor="#66be56" stopOpacity="0" />
+                  <stop offset="1" stopColor="#66be56" stopOpacity="0.55" />
+                </linearGradient>
+                <clipPath id="sc-clip">
+                  <path d={path} />
+                </clipPath>
               </defs>
               <circle cx={W / 2} cy={W * 0.42} r={W * 0.5} fill="url(#sc-glow)" />
-              <path d={path} fill="var(--bg)" stroke="var(--line-strong)" strokeWidth="1.4" />
+              {!reduce && (
+                <circle cx={W / 2} cy={W * 0.45} r={W * 0.44} fill="none" stroke="var(--accent)" strokeOpacity="0.35" strokeDasharray="3 9">
+                  <animateTransform attributeName="transform" type="rotate" from={`0 ${W / 2} ${W * 0.45}`} to={`360 ${W / 2} ${W * 0.45}`} dur="50s" repeatCount="indefinite" />
+                </circle>
+              )}
+              <path d={path} fill="url(#sc-fill)" stroke="var(--accent)" strokeOpacity="0.7" strokeWidth="1.6" />
               <path d={path} fill="none" stroke="var(--accent)" strokeOpacity="0.5" strokeWidth="0.6" strokeDasharray="1 5" />
 
-              {TERRITORIES.map((t) => {
+              {/* radar que barre el territorio */}
+              {!reduce && (
+                <g clipPath="url(#sc-clip)">
+                  <g style={{ transformOrigin: `${W / 2}px ${W * 0.45}px`, animation: "sweep 7s linear infinite" }}>
+                    <path d={`M${W / 2} ${W * 0.45} L${W / 2 + W * 0.6} ${W * 0.45 - W * 0.12} L${W / 2 + W * 0.6} ${W * 0.45} Z`} fill="url(#sc-sweep)" />
+                  </g>
+                </g>
+              )}
+
+              {/* conexiones desde el territorio activo */}
+              {TERRITORIES.filter((t) => t.id !== active).map((t) => (
+                <line
+                  key={`l-${t.id}`}
+                  x1={territory.p[0] * W}
+                  y1={territory.p[1] * W}
+                  x2={t.p[0] * W}
+                  y2={t.p[1] * W}
+                  stroke="var(--accent-2)"
+                  strokeOpacity="0.7"
+                  strokeWidth="1.4"
+                  className={reduce ? "" : "dash-flow"}
+                />
+              ))}
+
+              {TERRITORIES.map((t, i) => {
                 const on = t.id === active;
                 const x = t.p[0] * W;
                 const y = t.p[1] * W;
                 return (
                   <g key={t.id} className="cursor-pointer" onClick={() => setActive(t.id)}>
-                    {on && !reduce && (
-                      <circle cx={x} cy={y} r="9" fill="none" stroke="var(--accent)" strokeWidth="1.4">
-                        <animate attributeName="r" values="7;20;7" dur="2.4s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.7;0;0.7" dur="2.4s" repeatCount="indefinite" />
+                    {!reduce && (
+                      <circle cx={x} cy={y} r="8" fill="none" stroke={on ? "var(--accent)" : "var(--accent-2)"} strokeWidth="1.4">
+                        <animate attributeName="r" values={on ? "8;26;8" : "6;16;6"} dur={on ? "2s" : "3.2s"} begin={`${i * 0.4}s`} repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.8;0;0.8" dur={on ? "2s" : "3.2s"} begin={`${i * 0.4}s`} repeatCount="indefinite" />
                       </circle>
                     )}
-                    <circle cx={x} cy={y} r={on ? 8 : 5.5} fill={on ? "var(--accent)" : "var(--accent-2)"} fillOpacity={on ? 1 : 0.75} stroke="var(--bg)" strokeWidth="2" />
+                    <circle cx={x} cy={y} r={on ? 10 : 6.5} fill={on ? "var(--accent)" : "var(--accent-2)"} stroke="var(--bg)" strokeWidth="2.5" style={{ filter: "drop-shadow(0 0 8px var(--accent))" }} />
+                    {on && (
+                      <text x={x} y={y - 18} textAnchor="middle" className="fill-fg" fontSize="15" fontWeight="700" style={{ paintOrder: "stroke", stroke: "var(--bg)", strokeWidth: 4 }}>
+                        {t.name.split(",")[0].split(" y ")[0]}
+                      </text>
+                    )}
                     <circle cx={x} cy={y} r="16" fill="transparent" tabIndex={0} role="button" aria-label={t.name} aria-describedby={on ? tipId : undefined}
                       aria-pressed={on} onFocus={() => setActive(t.id)}
                       className="outline-offset-4" />
@@ -88,8 +133,8 @@ export function SmartCities() {
                   role="tab"
                   aria-selected={t.id === active}
                   onClick={() => setActive(t.id)}
-                  className={`rounded-full border px-3.5 py-2 text-[0.78rem] font-medium transition-colors ${
-                    t.id === active ? "border-transparent bg-[image:var(--grad-brand)] text-white" : "border-line-strong text-fg2 hover:border-accent hover:text-accent"
+                  className={`rounded-full border px-4 py-2.5 text-[0.82rem] font-semibold transition-all duration-300 ${
+                    t.id === active ? "-translate-y-0.5 border-transparent bg-[image:var(--grad-brand)] text-white shadow-[0_12px_28px_-10px_rgba(19,126,198,0.7)]" : "border-line-strong text-fg2 hover:-translate-y-0.5 hover:border-accent hover:text-accent"
                   }`}
                 >
                   {t.name.split(",")[0].split(" y ")[0]}
@@ -102,9 +147,10 @@ export function SmartCities() {
               initial={reduce ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45 }}
-              className="glass mt-6 rounded-3xl p-7 sm:p-8"
+              className="glass relative mt-6 overflow-hidden rounded-3xl p-7 shadow-[0_30px_70px_-34px_rgba(19,126,198,0.55)] sm:p-6"
             >
-              <h3 className="text-[1.3rem] font-bold tracking-tight">{territory.name}</h3>
+              <span aria-hidden className="absolute inset-x-0 top-0 h-1.5 bg-[image:var(--grad-brand)]" />
+              <h3 className="text-[1.6rem] font-bold leading-tight tracking-tight"><span className="text-grad">{territory.name}</span></h3>
 
               <h4 className="eyebrow mt-6">Capacidades presentes</h4>
               <ul className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
@@ -115,7 +161,7 @@ export function SmartCities() {
                       key={c.id}
                       title={c.text}
                       className={`rounded-xl border px-3 py-2 text-center text-[0.72rem] font-medium ${
-                        has ? "border-accent/40 bg-[var(--glass)] text-fg" : "border-line text-fg3 opacity-50"
+                        has ? "border-accent/50 bg-[var(--glass)] font-semibold text-fg hover:-translate-y-0.5 hover:bg-[image:var(--grad-brand)] hover:text-white" : "border-line text-fg3 opacity-50"
                       }`}
                     >
                       {c.label}

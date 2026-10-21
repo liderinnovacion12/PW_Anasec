@@ -43,6 +43,20 @@ export function NetworkBackground({ className = "" }: { className?: string }) {
       }));
     };
 
+    /* colores del tema vigente (--rgb-line / --rgb-node / --rgb-dot) */
+    let cLine = "92 192 245";
+    let cNode = "102 190 86";
+    let cDot = "150 200 255";
+    const readColors = () => {
+      const cs = getComputedStyle(host);
+      cLine = cs.getPropertyValue("--rgb-line").trim() || cLine;
+      cNode = cs.getPropertyValue("--rgb-node").trim() || cNode;
+      cDot = cs.getPropertyValue("--rgb-dot").trim() || cDot;
+    };
+    readColors();
+    const mo = new MutationObserver(readColors);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+
     const LINK = () => (W < 640 ? 110 : 150);
 
     const draw = () => {
@@ -64,7 +78,7 @@ export function NetworkBackground({ className = "" }: { className?: string }) {
           const b = nodes[j];
           const d = Math.hypot(a.x - b.x, a.y - b.y);
           if (d < L) {
-            ctx.strokeStyle = `rgba(92,192,245,${(1 - d / L) * 0.32})`;
+            ctx.strokeStyle = `rgb(${cLine} / ${(1 - d / L) * 0.4})`;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -73,7 +87,7 @@ export function NetworkBackground({ className = "" }: { className?: string }) {
         }
         const dm = Math.hypot(a.x - m.x, a.y - m.y);
         if (dm < L * 1.5) {
-          ctx.strokeStyle = `rgba(123,211,106,${(1 - dm / (L * 1.5)) * 0.65})`;
+          ctx.strokeStyle = `rgb(${cNode} / ${(1 - dm / (L * 1.5)) * 0.65})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
@@ -83,7 +97,7 @@ export function NetworkBackground({ className = "" }: { className?: string }) {
         }
       }
       for (const n of nodes) {
-        ctx.fillStyle = n.g ? "rgba(123,211,106,0.95)" : "rgba(150,210,255,0.85)";
+        ctx.fillStyle = n.g ? `rgb(${cNode} / 0.95)` : `rgb(${cDot} / 0.7)`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, 6.283);
         ctx.fill();
@@ -120,6 +134,7 @@ export function NetworkBackground({ className = "" }: { className?: string }) {
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      mo.disconnect();
       io.disconnect();
       host.removeEventListener("pointermove", onMove);
       host.removeEventListener("pointerleave", onLeave);

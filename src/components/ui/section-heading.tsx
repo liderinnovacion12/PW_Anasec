@@ -15,13 +15,13 @@ type Props = {
 
 export function SectionHeading({ eyebrow, title, titleId, highlight, children, align = "left", as = "h2", className = "" }: Props) {
   return (
-    <div className={`${align === "center" ? "mx-auto text-center" : ""} max-w-4xl ${className}`}>
-      <Reveal>
+    <div className={`${align === "center" ? "mx-auto text-center" : ""} relative max-w-4xl ${className}`}>
+      <Reveal className="relative z-10">
         <span className="eyebrow">{eyebrow}</span>
       </Reveal>
-      <TextReveal text={title} id={titleId} highlight={highlight} as={as} className="h-section mt-5" />
+      <TextReveal text={title} id={titleId} highlight={highlight} as={as} className="h-section relative z-10 mt-5" />
       {children ? (
-        <Reveal delay={0.15} className="mt-6">
+        <Reveal delay={0.15} className="relative z-10 mt-6">
           <div className={`lead max-w-2xl ${align === "center" ? "mx-auto" : ""}`}>{children}</div>
         </Reveal>
       ) : null}

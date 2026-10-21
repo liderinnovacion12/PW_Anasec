@@ -7,7 +7,7 @@ import { END_TO_END, LEGAL_ITEMS } from "@/lib/content";
 
 export function LegalCapacity() {
   return (
-    <section id="capacidad" aria-labelledby="legal-title" className="section-pad relative overflow-hidden bg-bg2">
+    <section id="capacidad" aria-labelledby="legal-title" className="section-pad relative overflow-hidden bg-bg2/55">
       <div className="container-x">
         <SectionHeading
           eyebrow="13 · Respaldo jurídico y capacidad de contratación"
@@ -19,7 +19,7 @@ export function LegalCapacity() {
           las entidades territoriales y nacionales.
         </SectionHeading>
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {LEGAL_ITEMS.map((it, i) => (
             <Reveal key={it.title} delay={(i % 3) * 0.08}>
               <article className="group relative flex h-full items-start gap-4 overflow-hidden rounded-2xl border border-line p-6 transition-colors duration-500 hover:border-accent/50">
@@ -40,7 +40,7 @@ export function LegalCapacity() {
         </div>
 
         {/* soluciones end-to-end */}
-        <Reveal delay={0.2} className="glass mt-14 rounded-[32px] p-7 sm:p-10">
+        <Reveal delay={0.2} className="glass mt-7 rounded-[32px] p-7 sm:p-10">
           <p className="eyebrow !before:hidden">Soluciones end-to-end</p>
           <p className="mt-2 max-w-2xl text-[0.95rem] leading-relaxed text-fg2">
             Alcance operativo integral que abarca desde la consultoría, formulación, diseño e integración, hasta la

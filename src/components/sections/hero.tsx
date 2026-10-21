@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Network } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BrandCorners } from "@/components/ui/brand-corners";
 import { Counter } from "@/components/ui/counter";
@@ -16,7 +17,6 @@ const CUES = [
     from: 0.4,
     to: 3.4,
     pos: "left-0 bottom-0 md:bottom-[22%] md:max-w-[34rem]",
-    eyebrow: SITE.concept,
     text: "Transformamos desafíos",
     size: "text-[clamp(2rem,5.2vw,4.6rem)]",
   },
@@ -34,8 +34,6 @@ const CUES = [
     pos: "left-0 bottom-0 md:bottom-[22%] md:max-w-[36rem]",
     text: "que hacen avanzar a Colombia.",
     size: "text-[clamp(1.8rem,4.4vw,3.8rem)]",
-    lead:
-      "ANASEC articula tecnología, infraestructura, innovación y capacidades institucionales para desarrollar proyectos de alto impacto en todo el territorio nacional.",
   },
 ] as const;
 
@@ -100,7 +98,6 @@ export function Hero() {
             <p className={`h-display ${shadow}`} aria-hidden>
               Transformamos desafíos en soluciones que hacen avanzar a Colombia.
             </p>
-            <p className="lead mt-5">{CUES[2].lead}</p>
           </div>
         ) : (
           <AnimatePresence mode="wait">
@@ -114,11 +111,9 @@ export function Hero() {
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 className={`absolute ${cue.pos}`}
               >
-                {"eyebrow" in cue && <span className="eyebrow">{cue.eyebrow}</span>}
-                <p className={`mt-4 font-bold leading-[1.02] tracking-[-0.035em] ${cue.size} ${"grad" in cue ? "text-grad [filter:drop-shadow(0_2px_16px_rgb(0_0_0/0.5))]" : `text-white ${shadow}`}`}>
+                <p className={`font-bold leading-[1.02] tracking-[-0.035em] ${cue.size} ${"grad" in cue ? "text-grad [filter:drop-shadow(0_2px_16px_rgb(0_0_0/0.5))]" : `text-white ${shadow}`}`}>
                   {cue.text}
                 </p>
-                {"lead" in cue && <p className={`lead mt-5 max-w-md !text-white/85 ${shadow}`}>{cue.lead}</p>}
               </motion.div>
             )}
           </AnimatePresence>
@@ -129,21 +124,21 @@ export function Hero() {
       <div className="container-x absolute inset-x-0 bottom-0 z-10 pb-6 sm:pb-8">
         <div className="flex flex-wrap items-center gap-3">
           <Magnetic>
-            <a href="#soluciones" className="btn btn-primary">
+            <Link href="/soluciones" className="btn btn-primary">
               Conoce nuestras soluciones
               <ArrowRight className="arrow h-4 w-4" />
-            </a>
+            </Link>
           </Magnetic>
           <Magnetic>
-            <a href="#contacto" className="btn btn-ghost backdrop-blur-md">
+            <Link href="/contacto" className="btn btn-ghost backdrop-blur-md">
               Habla con ANASEC
               <ArrowUpRight className="arrow h-4 w-4" />
-            </a>
+            </Link>
           </Magnetic>
-          <a href="#network" className="group ml-1 hidden items-center gap-2 text-sm font-medium text-fg2 transition-colors hover:text-accent lg:inline-flex">
+          <Link href="/tecnologia" className="group ml-1 hidden items-center gap-2 text-sm font-medium text-fg2 transition-colors hover:text-accent lg:inline-flex">
             <Network className="h-4 w-4 text-accent" />
             Explora <strong className="font-semibold text-fg group-hover:text-accent">ANASEC Digital Network</strong>
-          </a>
+          </Link>
         </div>
         <ul className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
           {KPIS.map((k) => (

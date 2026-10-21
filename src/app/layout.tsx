@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Montserrat } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { SiteBackground } from "@/components/canvas/site-background";
+import { Spotlight } from "@/components/layout/spotlight";
 import { ProgressRail } from "@/components/layout/progress-rail";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { SITE } from "@/lib/site";
@@ -124,6 +126,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </a>
           <Navbar />
           <ProgressRail />
+          <Spotlight />
+          <SiteBackground />
           <div id="main" className="flex flex-1 flex-col">
             {children}
           </div>

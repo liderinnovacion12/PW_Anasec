@@ -31,7 +31,7 @@ export function Logistics() {
         </div>
 
         {/* nube de servicios */}
-        <Reveal delay={0.1} className="glass mx-auto mt-14 flex max-w-4xl flex-wrap items-center justify-center gap-x-5 gap-y-4 rounded-[32px] px-6 py-10 sm:px-12 sm:py-14">
+        <Reveal delay={0.1} className="glass mx-auto mt-7 flex max-w-4xl flex-wrap items-center justify-center gap-x-5 gap-y-4 rounded-[32px] px-6 py-10 sm:px-12 sm:py-14">
           {LOGISTICS_WORDS.map((w, i) => (
             <span
               key={w}
@@ -42,7 +42,7 @@ export function Logistics() {
           ))}
         </Reveal>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {LOGISTICS_GROUPS.map((g, i) => (
             <Reveal key={g.title} delay={i * 0.08}>
               <article className="group relative h-full overflow-hidden rounded-2xl border border-line p-6 transition-colors duration-500 hover:border-accent/50">

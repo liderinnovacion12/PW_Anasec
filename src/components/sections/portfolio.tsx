@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight, Check, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -85,6 +86,7 @@ function Art({ id }: { id: PortfolioItem["id"] }) {
 export function Portfolio() {
   const [sel, setSel] = useState<PortfolioItem | null>(null);
   const dlg = useRef<HTMLDialogElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const d = dlg.current;
@@ -94,13 +96,15 @@ export function Portfolio() {
   }, [sel]);
 
   const request = (item: PortfolioItem) => {
-    window.dispatchEvent(new CustomEvent("anasec:project-type", { detail: item.projectType }));
+    try {
+      sessionStorage.setItem("anasec:project-type", item.projectType);
+    } catch {}
     setSel(null);
-    document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
+    router.push("/contacto");
   };
 
   return (
-    <section id="portafolio" aria-labelledby="port-title" className="section-pad relative bg-bg2">
+    <section id="portafolio" aria-labelledby="port-title" className="section-pad relative bg-bg2/55">
       <div className="container-x">
         <SectionHeading
           eyebrow="05 · Portafolio tecnológico"
@@ -111,10 +115,10 @@ export function Portfolio() {
           Portafolio tecnológico
         </h2>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
+        <div className="mt-7 grid gap-5 md:grid-cols-2">
           {PORTFOLIO.map((p, i) => (
             <Reveal key={p.id} delay={(i % 2) * 0.1}>
-              <article className="glass group relative flex h-full flex-col overflow-hidden rounded-[28px] p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-[var(--shadow)] focus-within:border-accent/50 sm:p-8">
+              <article className="glass group relative flex h-full flex-col overflow-hidden rounded-[28px] p-6 transition-all duration-500 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-[var(--shadow)] focus-within:border-accent/50 sm:p-6">
                 <div
                   aria-hidden
                   className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-brand-blue/15 blur-3xl transition-opacity duration-700 group-hover:opacity-100 md:opacity-0"

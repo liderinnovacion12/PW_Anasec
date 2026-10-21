@@ -54,7 +54,7 @@ function Venn() {
 
 export function Training() {
   return (
-    <section id="formacion" aria-labelledby="form-title" className="section-pad relative overflow-hidden bg-bg2">
+    <section id="formacion" aria-labelledby="form-title" className="section-pad relative overflow-hidden bg-bg2/55">
       <div className="container-x">
         <div className="grid gap-14 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-20">
           <div>
@@ -64,7 +64,7 @@ export function Training() {
               titleId="form-title"
               highlight={["talento."]}
             />
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            <div className="mt-7 grid gap-4 sm:grid-cols-2">
               {TRAINING_ITEMS.map((it, i) => (
                 <Reveal key={it.title} delay={i * 0.08}>
                   <article className="glass h-full rounded-2xl p-5">

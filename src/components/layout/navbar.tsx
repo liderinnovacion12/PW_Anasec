@@ -2,8 +2,9 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useActiveSection } from "@/hooks/use-active-section";
 import { NAV_LINKS, SITE } from "@/lib/site";
 import { Magnetic } from "@/components/ui/magnetic";
 import { Logo } from "./logo";
@@ -12,7 +13,8 @@ import { ThemeToggle } from "./theme-toggle";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const active = useActiveSection();
+  const pathname = usePathname();
+  const onVideo = pathname === "/" && !scrolled && !open;
   const burger = useRef<HTMLButtonElement>(null);
   const firstLink = useRef<HTMLAnchorElement>(null);
 
@@ -48,23 +50,23 @@ export function Navbar() {
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
           scrolled || open
             ? "border-b border-line bg-[var(--glass-strong)] shadow-[0_10px_40px_-20px_rgba(19,42,90,0.35)] backdrop-blur-xl backdrop-saturate-150"
-            : "on-video border-b border-transparent bg-transparent"
+            : `${onVideo ? "on-video " : ""}border-b border-transparent bg-transparent`
         }`}
       >
         <div className="container-x flex h-[72px] items-center justify-between gap-6">
-          <a href="#inicio" aria-label="ANASEC, ir al inicio" className="relative z-10 shrink-0">
+          <Link href="/" aria-label="ANASEC, ir al inicio" className="relative z-10 shrink-0">
             <Logo className="h-11 w-auto sm:h-12" priority />
-          </a>
+          </Link>
 
           <nav aria-label="Principal" className="hidden xl:block">
             <ul className="flex items-center gap-1">
-              {NAV_LINKS.map((l) => {
-                const on = l.sections.includes(active);
+              {NAV_LINKS.filter((l) => l.href !== "/").map((l) => {
+                const on = pathname === l.href;
                 return (
                   <li key={l.href}>
-                    <a
+                    <Link
                       href={l.href}
-                      aria-current={on ? "true" : undefined}
+                      aria-current={on ? "page" : undefined}
                       className={`group relative block rounded-full px-4 py-2 text-[0.86rem] font-medium transition-colors ${
                         on ? "text-fg" : "text-fg2 hover:text-fg"
                       }`}
@@ -75,7 +77,7 @@ export function Navbar() {
                           on ? "scale-x-100" : "scale-x-0 group-hover:scale-x-50"
                         }`}
                       />
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
@@ -86,10 +88,10 @@ export function Navbar() {
             <ThemeToggle />
             <div className="hidden xl:block">
               <Magnetic>
-                <a href="#contacto" className="btn btn-primary !min-h-11 !px-5 text-[0.86rem]">
+                <Link href="/contacto" className="btn btn-primary !min-h-11 !px-5 text-[0.86rem]">
                   Construyamos juntos
                   <ArrowUpRight className="arrow h-4 w-4" />
-                </a>
+                </Link>
               </Magnetic>
             </div>
             <button
@@ -128,24 +130,24 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.06 + i * 0.05, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <a
+                  <Link
                     ref={i === 0 ? firstLink : undefined}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    aria-current={l.sections.includes(active) ? "true" : undefined}
+                    aria-current={pathname === l.href ? "page" : undefined}
                     className="flex min-h-[60px] items-baseline gap-4 border-b border-line py-3 text-[1.7rem] font-semibold tracking-tight aria-[current=true]:text-accent"
                   >
                     <span className="font-mono text-xs text-fg3">0{i + 1}</span>
                     {l.label}
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
             <div className="mt-8 flex flex-col gap-4">
-              <a href="#contacto" onClick={() => setOpen(false)} className="btn btn-primary w-full">
+              <Link href="/contacto" onClick={() => setOpen(false)} className="btn btn-primary w-full">
                 Construyamos juntos
                 <ArrowUpRight className="arrow h-4 w-4" />
-              </a>
+              </Link>
               <p className="text-sm text-fg3">
                 {SITE.phone} · {SITE.email}
               </p>

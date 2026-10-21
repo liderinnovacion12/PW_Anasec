@@ -41,7 +41,7 @@ export function Allies() {
         />
       </div>
 
-      <div className="mt-14 flex flex-col gap-6">
+      <div className="mt-7 flex flex-col gap-6">
         {ALLIES.map((group, i) => (
           <Reveal key={group.category} delay={i * 0.1}>
             <p className="container-x mb-3 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-fg3">{group.category}</p>

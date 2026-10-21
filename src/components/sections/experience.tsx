@@ -82,10 +82,10 @@ export function Experience() {
       <div className="container-x">
         <SectionHeading eyebrow="12 · Experiencia probada" title="Experiencia que se puede medir." titleId="exp-title" highlight={["medir."]} />
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-[1fr_1fr_1.2fr]">
+        <div className="mt-7 grid gap-5 lg:grid-cols-[1fr_1fr_1.2fr]">
           {CARDS.map((c) => (
             <Reveal key={c.label}>
-              <article className="glass flex h-full flex-col justify-between rounded-3xl p-7 sm:p-8">
+              <article className="glass flex h-full flex-col justify-between rounded-3xl p-6 sm:p-7">
                 <c.icon className="h-8 w-8 text-accent" strokeWidth={1.5} aria-hidden />
                 <div className="mt-8">
                   <Counter to={c.value} prefix={c.prefix} suffix={c.suffix} className="text-4xl font-bold tracking-tight text-fg sm:text-5xl" />
@@ -114,7 +114,7 @@ export function Experience() {
           </Reveal>
         </div>
 
-        <Reveal delay={0.15} className="glass mt-6 rounded-3xl p-7 sm:p-9">
+        <Reveal delay={0.15} className="glass mt-6 rounded-3xl p-6 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="eyebrow !before:hidden">Fortaleza institucional</p>

@@ -1,17 +1,18 @@
 "use client";
 
 import { ArrowRight, ChevronDown } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { CAPABILITIES, type Capability } from "@/lib/content";
 
 const LINKS: Record<Capability["id"], string> = {
-  infra: "#infraestructura",
-  academica: "#formacion",
-  formacion: "#formacion",
-  ciber: "#ciberseguridad",
-  logistica: "#logistica",
+  infra: "/tecnologia#infraestructura",
+  academica: "/tecnologia#formacion",
+  formacion: "/tecnologia#formacion",
+  ciber: "/tecnologia#ciberseguridad",
+  logistica: "/tecnologia#logistica",
 };
 
 /** Ilustración animada (SVG + CSS) de cada línea; solo se anima cuando está activa. */
@@ -125,7 +126,7 @@ export function Capabilities() {
         </h2>
 
         {/* ESCRITORIO — paneles que se expanden */}
-        <Reveal delay={0.1} className="mt-14 hidden h-[620px] gap-3 lg:flex">
+        <Reveal delay={0.1} className="mt-7 hidden h-[520px] gap-3 lg:flex">
           {CAPABILITIES.map((c, i) => {
             const on = i === active;
             return (
@@ -184,12 +185,12 @@ export function Capabilities() {
                         </li>
                       ))}
                     </ul>
-                    <a
+                    <Link
                       href={LINKS[c.id]}
                       className="pointer-events-auto relative z-30 mt-7 inline-flex items-center gap-2 text-sm font-semibold underline-offset-4 hover:underline"
                     >
                       Explorar capacidad <ArrowRight className="h-4 w-4" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </article>
@@ -233,9 +234,9 @@ export function Capabilities() {
                             </li>
                           ))}
                         </ul>
-                        <a href={LINKS[c.id]} className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold">
+                        <Link href={LINKS[c.id]} className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold">
                           Explorar capacidad <ArrowRight className="h-4 w-4" />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>

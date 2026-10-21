@@ -1,9 +1,11 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { Cable, Cpu, Handshake, Landmark, Lightbulb, Sparkles, Users, type LucideIcon } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
+import { NetworkBackground } from "@/components/canvas/network-bg";
+import { Counter } from "@/components/ui/counter";
 import { Reveal } from "@/components/ui/reveal";
 import { TextReveal } from "@/components/ui/text-reveal";
 
@@ -18,6 +20,25 @@ const PARTS: { label: string; icon: LucideIcon }[] = [
 /* posición horizontal (%) de los 6 nodos del diagrama de escritorio */
 const XS = [8.2, 25.6, 43, 60.4, 77.8, 95];
 
+const RIBBON = ["Estado", "Tecnología", "Infraestructura", "Innovación", "Talento", "Impacto"];
+
+/** Fondo vivo: red de nodos, rejilla y resplandores que se desplazan con el scroll. */
+function LiveBackground({ progress, reduce }: { progress: MotionValue<number>; reduce: boolean }) {
+  const blueX = useTransform(progress, [0, 1], ["-15%", "60%"]);
+  const blueY = useTransform(progress, [0, 1], ["0%", "60%"]);
+  const greenX = useTransform(progress, [0, 1], ["75%", "0%"]);
+  const greenY = useTransform(progress, [0, 1], ["65%", "0%"]);
+  const gridY = useTransform(progress, [0, 1], [0, -180]);
+  return (
+    <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden bg-bg2">
+      <motion.div style={reduce ? undefined : { y: gridY }} className="grid-bg absolute inset-x-0 -top-40 bottom-[-180px] opacity-80" />
+      <motion.div style={reduce ? undefined : { left: blueX, top: blueY }} className="absolute h-[560px] w-[560px] rounded-full bg-brand-blue/30 blur-[120px]" />
+      <motion.div style={reduce ? undefined : { left: greenX, top: greenY }} className="absolute h-[480px] w-[480px] rounded-full bg-brand-green/25 blur-[120px]" />
+      {!reduce && <NetworkBackground className="absolute inset-0 opacity-60" />}
+    </div>
+  );
+}
+
 export function About() {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
@@ -25,10 +46,32 @@ export function About() {
   const photoY = useTransform(scrollYProgress, [0, 1], [40, -50]);
 
   return (
-    <section ref={ref} id="anasec" aria-labelledby="anasec-title" className="section-pad relative overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute -right-40 top-20 h-[520px] w-[520px] rounded-full bg-brand-blue/10 blur-[120px]" />
+    <section ref={ref} id="anasec" aria-labelledby="anasec-title" className="relative isolate overflow-hidden">
+      <LiveBackground progress={scrollYProgress} reduce={!!reduce} />
 
-      <div className="container-x">
+      {/* cinta de ecuación */}
+      <div aria-hidden className="marquee border-b border-line bg-bg/60 py-4 backdrop-blur-sm [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] sm:py-5">
+        <div className="marquee-track" style={{ ["--dur" as string]: "46s" }}>
+          {[0, 1].map((k) => (
+            <div key={k} className="flex shrink-0 items-center">
+              {RIBBON.map((r, i) => (
+                <span key={r} className="flex items-center">
+                  <span
+                    className={`px-6 text-[clamp(2.2rem,6vw,4.8rem)] font-extrabold uppercase leading-none tracking-tighter ${
+                      r === "Impacto" ? "text-grad" : "text-transparent [-webkit-text-stroke:1.5px_var(--line-strong)]"
+                    }`}
+                  >
+                    {r}
+                  </span>
+                  <span className="text-[clamp(1.5rem,3.6vw,2.8rem)] font-light text-fg3">{i < RIBBON.length - 2 ? "+" : i === RIBBON.length - 2 ? "=" : "·"}</span>
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="container-x section-pad">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           {/* IZQUIERDA */}
           <div>
@@ -68,6 +111,18 @@ export function About() {
                   className="relative mx-auto h-auto w-[86%] drop-shadow-[0_30px_40px_rgba(6,16,40,0.35)]"
                 />
               </motion.div>
+              <div className="glass animate-float absolute -left-2 top-[22%] rounded-2xl px-4 py-3 shadow-[var(--shadow)] md:-left-10">
+                <p className="text-2xl font-bold leading-none tracking-tight text-fg">
+                  <Counter to={34} prefix="+" />
+                </p>
+                <p className="mt-1 text-[0.62rem] font-medium uppercase tracking-[0.12em] text-fg3">Contratos ejecutados</p>
+              </div>
+              <div className="glass animate-float absolute -right-2 top-2 rounded-2xl px-4 py-3 shadow-[var(--shadow)] md:-right-8" style={{ animationDelay: "-2.5s" }}>
+                <p className="text-xl font-bold leading-none tracking-tight text-fg">
+                  <Counter to={150000} prefix="+$" suffix=" M" />
+                </p>
+                <p className="mt-1 text-[0.62rem] font-medium uppercase tracking-[0.12em] text-fg3">COP gestionados</p>
+              </div>
               <div className="glass absolute -right-2 bottom-8 max-w-[190px] rounded-2xl px-4 py-3 md:-right-8">
                 <p className="text-[0.72rem] font-medium leading-snug text-fg2">
                   Pensando en el bienestar de las <strong className="text-fg">personas, sus hogares y sus instituciones.</strong>
@@ -202,7 +257,7 @@ export function About() {
               <span
                 key={`s${i}`}
                 aria-hidden
-                className="absolute top-[33.3%] -translate-x-1/2 -translate-y-1/2 bg-bg px-1 text-xl font-light text-fg3"
+                className="absolute top-[33.3%] -translate-x-1/2 -translate-y-1/2 px-1 text-xl font-light text-fg3"
                 style={{ left: `${(x + XS[i + 1]) / 2}%` }}
               >
                 {i < 4 ? "+" : "="}

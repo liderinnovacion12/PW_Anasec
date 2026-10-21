@@ -63,7 +63,7 @@ export function Infrastructure() {
           digital de ANASEC en el territorio nacional.
         </SectionHeading>
 
-        <div className="relative mt-16 lg:mt-14">
+        <div className="relative mt-7 lg:mt-7">
           <FiberLine />
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:pt-[130px]">
             {INFRA_ITEMS.map((it, i) => (

@@ -15,7 +15,7 @@ const FIGURES = [
 /** Banda de cifras clave (patrón "indicadores" de ISA), justo después del hero. */
 export function FiguresStrip() {
   return (
-    <section aria-label="ANASEC en cifras" className="relative border-y border-line bg-bg2">
+    <section aria-label="ANASEC en cifras" className="relative border-y border-line bg-bg2/55">
       <div className="container-x">
         <ul className="grid grid-cols-2 divide-line lg:grid-cols-4 lg:divide-x">
           {FIGURES.map((f, i) => (

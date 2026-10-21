@@ -19,13 +19,14 @@ export function Contact() {
   const liveRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onPreset = (e: Event) => {
-      const detail = (e as CustomEvent<string>).detail;
-      setValues((v) => ({ ...v, project: detail }));
+    try {
+      const preset = sessionStorage.getItem("anasec:project-type");
+      if (!preset) return;
+      sessionStorage.removeItem("anasec:project-type");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setValues((v) => ({ ...v, project: preset }));
       document.getElementById("f-message")?.focus();
-    };
-    window.addEventListener("anasec:project-type", onPreset);
-    return () => window.removeEventListener("anasec:project-type", onPreset);
+    } catch {}
   }, []);
 
   const set = (k: keyof Fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -66,14 +67,14 @@ export function Contact() {
   };
 
   return (
-    <section id="contacto" aria-labelledby="contact-title" className="section-pad relative overflow-hidden bg-bg2">
+    <section id="contacto" aria-labelledby="contact-title" className="section-pad relative overflow-hidden bg-bg2/55">
       <div className="container-x">
         <SectionHeading eyebrow="Contacto" title="Hablemos de tu próximo proyecto" titleId="contact-title" highlight={["proyecto"]} />
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10">
+        <div className="mt-7 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-8">
           {/* INFO + MAPA */}
           <Reveal className="flex flex-col gap-6">
-            <div className="glass rounded-3xl p-7 sm:p-8">
+            <div className="glass rounded-3xl p-6 sm:p-7">
               <p className="text-lg font-bold tracking-tight">{SITE.name}</p>
               <p className="text-sm text-fg3">{SITE.legalName}</p>
               <ul className="mt-6 space-y-4 text-sm">
@@ -124,7 +125,7 @@ export function Contact() {
           </Reveal>
 
           {/* FORMULARIO */}
-          <Reveal delay={0.1} className="glass relative overflow-hidden rounded-3xl p-7 sm:p-9">
+          <Reveal delay={0.1} className="glass relative overflow-hidden rounded-3xl p-6 sm:p-7">
             <AnimatePresence mode="wait">
               {status === "sent" ? (
                 <motion.div

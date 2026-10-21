@@ -1,13 +1,15 @@
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import { SITE } from "@/lib/site";
 import { Logo } from "./logo";
 
 const NAV = [
-  { label: "Quiénes somos", href: "/#anasec" },
-  { label: "Soluciones", href: "/#soluciones" },
-  { label: "Experiencia", href: "/#experiencia" },
-  { label: "Aliados", href: "/#aliados" },
-  { label: "Contacto", href: "/#contacto" },
+  { label: "Nosotros", href: "/nosotros" },
+  { label: "Soluciones", href: "/soluciones" },
+  { label: "Tecnología", href: "/tecnologia" },
+  { label: "Experiencia", href: "/experiencia" },
+  { label: "Aliados", href: "/aliados" },
+  { label: "Contacto", href: "/contacto" },
 ];
 
 const LEGAL = [
@@ -18,7 +20,7 @@ const LEGAL = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-line bg-bg2">
+    <footer className="relative border-t border-line bg-bg2/80">
       <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-[image:var(--grad-brand)] opacity-70" />
       <div className="container-x grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
@@ -26,12 +28,12 @@ export function Footer() {
           <p className="mt-5 text-sm font-semibold tracking-wide text-fg">{SITE.type}</p>
           <p className="mt-1 text-sm text-fg2">{SITE.legalName}</p>
           <p className="mt-4 font-mono text-xs tracking-wider text-fg3">NIT: {SITE.nit}</p>
-          <a
-            href="#inicio"
+          <Link
+            href="/"
             className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
           >
-            Volver arriba <ArrowUpRight className="h-4 w-4 -rotate-45" />
-          </a>
+            Ir al inicio <ArrowUpRight className="h-4 w-4 -rotate-45" />
+          </Link>
         </div>
 
         <nav aria-label="Enlaces del pie de página">
@@ -39,9 +41,9 @@ export function Footer() {
           <ul className="space-y-3">
             {NAV.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="text-[0.95rem] text-fg2 transition-colors hover:text-accent">
+                <Link href={l.href} className="text-[0.95rem] text-fg2 transition-colors hover:text-accent">
                   {l.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -52,9 +54,9 @@ export function Footer() {
           <ul className="space-y-3">
             {LEGAL.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="text-[0.95rem] text-fg2 transition-colors hover:text-accent">
+                <Link href={l.href} className="text-[0.95rem] text-fg2 transition-colors hover:text-accent">
                   {l.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
