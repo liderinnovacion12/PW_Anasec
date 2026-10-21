@@ -11,7 +11,7 @@ export function Logo({ className = "h-8 w-auto", priority = false }: { className
         height={264}
         priority={priority}
         unoptimized
-        className={`${className} block [[data-theme=dark]_&]:hidden [.surface-dark_&]:hidden`}
+        className={`${className} block [[data-theme=dark]_&]:hidden [.surface-dark_&]:hidden [.on-video_&]:hidden`}
       />
       <Image
         src="/logos/anasec-logo-full-dark.png"
@@ -21,7 +21,7 @@ export function Logo({ className = "h-8 w-auto", priority = false }: { className
         height={264}
         priority={priority}
         unoptimized
-        className={`${className} hidden [[data-theme=dark]_&]:block [.surface-dark_&]:block`}
+        className={`${className} hidden [[data-theme=dark]_&]:block [.surface-dark_&]:block [.on-video_&]:block [.on-video_&]:drop-shadow-[0_2px_12px_rgb(0_0_0/0.55)]`}
       />
     </>
   );
